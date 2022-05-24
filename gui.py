@@ -52,7 +52,7 @@ class GUI():
         self.width_limit_scale.grid(row=3, column=1)
 
         # 相似度 row = 4
-        Label(self.root, text="相似性跨度(越小图片越细节)").grid(row=4, column=0)
+        Label(self.root, text="相似性)").grid(row=4, column=0)
         self.similarity_scale = Scale(self.root,
                                       length=300,
                                       from_=1000,
