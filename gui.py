@@ -8,6 +8,7 @@ from img2ascii import *
 global_config = Config()
 
 def run(config):
+    print("ASCII图片生成中", config.filepath)
     result = AsciiImg(config).convert()
     print(result)
 

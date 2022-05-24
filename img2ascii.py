@@ -12,7 +12,7 @@ class Config():
         self.width_limit = 150
         self.height_limit = None
         self.save_file = False
-        self.symbols = ".o*|/\<c~>znw^@abcdefg"
+        self.symbols = ".o*<c~>|/\znw^@abcdefg"
     def __str__(self):
         return "filepath=%s,output=%s,color_disable=%s,similarity=%s,symbols=%s" % \
             (self.filepath, self.output, self.color_disable, self.similarity,str(self.symbols))
@@ -50,6 +50,7 @@ class AsciiImg(object):
 
         result = self._draw_image(img, symbol_color_map,
                             color_disable=self.config.color_disable)
+        print("ASCII图片生成完毕", self.config.filepath)
         return result
 
     def _get_transformation_steps(self, img, width_limit=None, height_limit=None):
