@@ -1,3 +1,5 @@
+import _thread
+import copy
 from tkinter import *
 from tkinter import filedialog
 
@@ -5,9 +7,15 @@ from img2ascii import *
 
 global_config = Config()
 
+def run(config):
+    result = AsciiImg(config).convert()
+    print(result)
+
 class GUI():
     def __init__(self):
         self.root = Tk()
+        
+    def start(self):
         self.init_window()
         self.root.mainloop()
 
@@ -52,7 +60,7 @@ class GUI():
         self.width_limit_scale.grid(row=3, column=1)
 
         # 相似度 row = 4
-        Label(self.root, text="相似性)").grid(row=4, column=0)
+        Label(self.root, text="相似性跨度(越小图片越细节)").grid(row=4, column=0)
         self.similarity_scale = Scale(self.root,
                                       length=300,
                                       from_=1000,
@@ -67,16 +75,18 @@ class GUI():
         # 生成结果
         self.generate_button = Button(
             self.root, text="生成ASCII图片", bg="lightblue", width=10, command=self.generate)
-        self.generate_button.grid(row=5, column=0, padx=10, pady=10, columnspan=3)
+        self.generate_button.grid(row=5, column=0, padx=10, pady=10)
 
     # 生成ASCII图片
     def generate(self):
+        # 获取配置
         global_config.symbols = list(self.input_entry.get())
         global_config.color_disable = self.color_disable.get() == 1
         global_config.similarity = self.similarity_scale.get()
         global_config.width_limit = self.width_limit_scale.get()
-        result = AsciiImg(global_config).convert()
-        print(result)
+        # 调用异步线程生成图片，避免阻塞桌面程序
+        config = copy.deepcopy(global_config)
+        _thread.start_new_thread (run, (config,))
 
     # 选择文件
     def select_file(self):
@@ -85,4 +95,4 @@ class GUI():
 
 if __name__ == '__main__':
     app = GUI()
-    app.init_window()
+    app.start()
