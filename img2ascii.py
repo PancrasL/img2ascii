@@ -50,7 +50,6 @@ class AsciiImg(object):
 
         result = self._draw_image(img, symbol_color_map,
                             color_disable=self.config.color_disable)
-        print("ASCII图片生成完毕", self.config.filepath)
         return result
 
     def _get_transformation_steps(self, img, width_limit=None, height_limit=None):
